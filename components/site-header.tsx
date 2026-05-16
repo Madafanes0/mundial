@@ -21,20 +21,11 @@ export async function SiteHeader() {
 
         {!isSupabaseConfigured() ? (
           <p className="text-xs text-amber-800 dark:text-amber-200">
-            Sin Supabase: en local usa{" "}
+            Modo local: crea{" "}
             <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">
               .env.local
-            </code>
-            ; en Vercel marca también{" "}
-            <strong>Development</strong> si usas{" "}
-            <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">
-              vercel dev
-            </code>
-            . URL ={" "}
-            <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">
-              https://….supabase.co
-            </code>
-            . Redeploy tras cambiar variables.
+            </code>{" "}
+            con tus credenciales de Supabase.
           </p>
         ) : (
           <Suspense
