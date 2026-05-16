@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Álbum Mundial 2026",
   description:
-    "Registro de cromos: equipos, Coca-Cola, historia FIFA, repetidos y cuenta en la nube.",
+    "Registro local de cromos: equipos, Coca-Cola, historia FIFA y repetidos.",
 };
 
 export default function RootLayout({

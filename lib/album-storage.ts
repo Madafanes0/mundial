@@ -88,7 +88,7 @@ function normalizeLoaded(raw: unknown): AlbumPersisted {
   return merged;
 }
 
-/** Misma normalización para JSON guardado en Supabase o localStorage. */
+/** Misma normalización para JSON guardado en localStorage. */
 export const normalizeAlbumPayload = normalizeLoaded;
 
 export function loadAlbumFromStorage(): AlbumPersisted {

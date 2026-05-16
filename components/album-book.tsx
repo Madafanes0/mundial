@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { saveMyAlbum } from "@/app/actions/album";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { TeamFlag } from "@/components/team-flag";
 import {
   CARDS_PER_TEAM,
@@ -20,11 +19,9 @@ import {
   type AlbumPersisted,
   createEmptyAlbum,
   loadAlbumFromStorage,
-  normalizeAlbumPayload,
   saveAlbumToStorage,
   setCountForSpecial,
 } from "@/lib/album-storage";
-import { isAlbumVirtuallyEmpty } from "@/lib/album-empty";
 import { listDuplicates, totalDuplicateStickers } from "@/lib/duplicates";
 
 const COCA_PAGE_INDEX = 1 + TEAMS.length;
@@ -40,12 +37,6 @@ const SURFACE_HISTORY =
   "linear-gradient(155deg, rgba(30,58,138,0.5) 0%, #eff6ff 40%, rgba(29,78,216,0.4) 100%)";
 const SURFACE_REPEATED =
   "linear-gradient(155deg, rgba(180,83,9,0.35) 0%, #fffbeb 42%, rgba(234,88,12,0.32) 100%)";
-
-export interface AlbumBookProps {
-  /** Si hay sesión: instantánea del álbum desde el servidor. */
-  cloudSnapshot: AlbumPersisted | null;
-  userEmail: string | null;
-}
 
 function cardIndexFromNumber(cardNumber: number): number {
   return cardNumber - 1;
@@ -132,43 +123,20 @@ function dotLabel(pageIndex: number): string {
   return "Rep";
 }
 
-export function AlbumBook({ cloudSnapshot, userEmail }: AlbumBookProps) {
-  const useCloud = cloudSnapshot !== null;
-  const initRef = useRef(false);
+export function AlbumBook() {
   const [ready, setReady] = useState(false);
   const [page, setPage] = useState(0);
-  const [album, setAlbum] = useState<AlbumPersisted>(
-    () => cloudSnapshot ?? createEmptyAlbum(),
-  );
+  const [album, setAlbum] = useState<AlbumPersisted>(() => createEmptyAlbum());
 
   useEffect(() => {
-    if (initRef.current) return;
-    initRef.current = true;
-
-    if (cloudSnapshot) {
-      const local = loadAlbumFromStorage();
-      if (isAlbumVirtuallyEmpty(cloudSnapshot) && !isAlbumVirtuallyEmpty(local)) {
-        const merged = normalizeAlbumPayload(local);
-        setAlbum(merged);
-        void saveMyAlbum(merged);
-      } else {
-        setAlbum(cloudSnapshot);
-      }
-    } else {
-      setAlbum(loadAlbumFromStorage());
-    }
+    setAlbum(loadAlbumFromStorage());
     setReady(true);
-  }, [cloudSnapshot]);
+  }, []);
 
   useEffect(() => {
     if (!ready) return;
     saveAlbumToStorage(album);
-    if (!useCloud) return;
-    const t = setTimeout(() => {
-      void saveMyAlbum(album);
-    }, 700);
-    return () => clearTimeout(t);
-  }, [album, ready, useCloud]);
+  }, [album, ready]);
 
   const goPrev = useCallback(() => {
     setPage((p) => Math.max(0, p - 1));
@@ -216,9 +184,7 @@ export function AlbumBook({ cloudSnapshot, userEmail }: AlbumBookProps) {
     setAlbum((a) => setTeamAllToOnes(a, teamCode));
   }
 
-  const saveHint = useCloud
-    ? `Cuenta: ${userEmail ?? "—"} · sincronización en la nube + copia local`
-    : "Modo invitado: solo en este navegador (inicia sesión para multiusuario)";
+  const saveHint = "Se guarda en este navegador (local).";
 
   if (!ready) {
     return (
@@ -338,8 +304,8 @@ function CoverPage({ dupTotal }: { dupTotal: number }) {
         Repetidos registrados: {dupTotal} cromos de más (para canje)
       </p>
       <p className="mt-6 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-500">
-        Cada país muestra su bandera y colores. Inicia sesión para guardar el
-        álbum en la nube (varios usuarios en producción con Supabase).
+        Cada país muestra su bandera y colores. Tus datos no salen de este
+        dispositivo salvo que exportes o cambies de navegador.
       </p>
     </div>
   );

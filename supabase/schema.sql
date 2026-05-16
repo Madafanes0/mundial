@@ -1,3 +1,6 @@
+-- (Opcional) Esquema si más adelante conectas cuentas Supabase + álbum en la nube.
+-- La app actual solo usa localStorage en el navegador.
+--
 -- Ejecutar en Supabase → SQL Editor (una vez por proyecto).
 -- Habilita un álbum JSON por usuario con RLS.
 
