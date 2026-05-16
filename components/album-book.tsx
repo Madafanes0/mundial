@@ -209,7 +209,7 @@ export function AlbumBook() {
       </header>
 
       <div
-        className="relative flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-lg border border-black/15 bg-white/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)] backdrop-blur-md dark:border-white/15 dark:bg-black/25 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] dark:backdrop-blur-md sm:min-h-[480px]"
+        className="relative flex min-h-[420px] flex-1 flex-col overflow-hidden rounded-lg border border-black/15 bg-white/35 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)] backdrop-blur-sm dark:border-white/15 dark:bg-black/25 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] dark:backdrop-blur-sm sm:min-h-[480px]"
         style={{
           boxShadow:
             "inset 0 0 0 1px rgba(255,255,255,0.2), 0 12px 40px rgba(0,0,0,0.15)",
@@ -260,7 +260,7 @@ export function AlbumBook() {
           )}
         </div>
 
-        <nav className="mt-auto flex shrink-0 items-center justify-between gap-3 border-t border-black/10 bg-white/50 px-4 py-3 backdrop-blur-md dark:border-white/10 dark:bg-black/35 dark:backdrop-blur-md sm:px-6">
+        <nav className="mt-auto flex shrink-0 items-center justify-between gap-3 border-t border-black/10 bg-white/50 px-4 py-3 backdrop-blur-sm dark:border-white/10 dark:bg-black/35 dark:backdrop-blur-sm sm:px-6">
           <button
             type="button"
             onClick={goPrev}
@@ -332,7 +332,7 @@ function TeamPage({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="mb-4 flex flex-wrap items-start justify-between gap-4 border-b border-black/10 pb-3 backdrop-blur-[2px] dark:border-white/10">
+      <div className="mb-4 flex flex-wrap items-start justify-between gap-4 border-b border-black/10 pb-3 dark:border-white/10">
         <div className="flex min-w-0 flex-1 gap-4">
           <TeamFlag fifaCode={team.code} countryName={team.nameEs} size={88} />
           <div className="min-w-0">
@@ -462,7 +462,7 @@ function SpecialStickerPage({
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div
-        className={`mb-4 flex flex-wrap items-baseline justify-between gap-2 border-b pb-3 backdrop-blur-[2px] ${headerClass}`}
+        className={`mb-4 flex flex-wrap items-baseline justify-between gap-2 border-b pb-3 ${headerClass}`}
       >
         <div>
           <p className="text-xs uppercase tracking-wider opacity-90">{pageLabel}</p>
