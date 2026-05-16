@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { parseSupabaseAuthError } from "@/lib/supabase/auth-errors";
 
 export function AuthRegisterForm() {
   const router = useRouter();
@@ -37,6 +38,8 @@ export function AuthRegisterForm() {
           "Puedes desactivar la confirmación en Supabase (Authentication → Providers → Email) para pruebas.",
       );
       router.refresh();
+    } catch (err) {
+      setError(parseSupabaseAuthError(err));
     } finally {
       setPending(false);
     }

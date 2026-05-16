@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
+import { parseSupabaseAuthError } from "@/lib/supabase/auth-errors";
 
 export function AuthLoginForm() {
   const router = useRouter();
@@ -28,6 +29,8 @@ export function AuthLoginForm() {
       }
       router.refresh();
       router.push("/");
+    } catch (err) {
+      setError(parseSupabaseAuthError(err));
     } finally {
       setPending(false);
     }

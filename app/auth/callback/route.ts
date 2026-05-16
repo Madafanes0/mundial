@@ -1,7 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
-import { type NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { type NextRequest, NextResponse } from "next/server";
 import { isSupabaseConfigured } from "@/lib/env-public";
+import {
+  readSupabaseAnonKey,
+  readSupabaseProjectUrl,
+} from "@/lib/supabase/project-env";
 
 export async function GET(request: NextRequest) {
   if (!isSupabaseConfigured()) {
@@ -15,8 +19,8 @@ export async function GET(request: NextRequest) {
   if (code) {
     const cookieStore = await cookies();
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      readSupabaseProjectUrl(),
+      readSupabaseAnonKey(),
       {
         cookies: {
           getAll() {

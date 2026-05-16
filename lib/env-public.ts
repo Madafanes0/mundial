@@ -1,6 +1,17 @@
+import {
+  isLikelyHostedSupabaseUrl,
+  readSupabaseAnonKey,
+  readSupabaseProjectUrl,
+} from "@/lib/supabase/project-env";
+
 /** Variables públicas necesarias para Supabase (auth + álbum en la nube). */
 export function isSupabaseConfigured(): boolean {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  return Boolean(url && url.length > 0 && key && key.length > 0);
+  const url = readSupabaseProjectUrl();
+  const key = readSupabaseAnonKey();
+  return Boolean(
+    url &&
+      key &&
+      key.length > 20 &&
+      isLikelyHostedSupabaseUrl(url),
+  );
 }

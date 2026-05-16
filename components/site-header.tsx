@@ -17,11 +17,19 @@ export async function SiteHeader() {
 
         {!isSupabaseConfigured() ? (
           <p className="text-xs text-amber-800 dark:text-amber-200">
-            Modo local: configura Supabase en{" "}
+            Modo local: en{" "}
             <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">
               .env.local
             </code>{" "}
-            para cuentas en la nube.
+            (o Vercel) pon{" "}
+            <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">
+              NEXT_PUBLIC_SUPABASE_URL
+            </code>{" "}
+            ={" "}
+            <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">
+              https://xxx.supabase.co
+            </code>{" "}
+            y la anon key. Redeploy tras cambiar variables.
           </p>
         ) : (
           <Suspense
