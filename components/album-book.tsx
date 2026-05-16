@@ -293,20 +293,30 @@ export function AlbumBook() {
 
 function CoverPage({ dupTotal }: { dupTotal: number }) {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center text-center">
-      <p className="mb-2 font-serif text-4xl text-zinc-800 dark:text-zinc-100">
-        Mi álbum
-      </p>
-      <p className="max-w-sm text-lg text-zinc-600 dark:text-zinc-400">
-        48 equipos · Coca-Cola (14) · Historia FIFA (19) · Repetidos
-      </p>
-      <p className="mt-4 text-sm font-medium text-amber-900 dark:text-amber-200">
-        Repetidos registrados: {dupTotal} cromos de más (para canje)
-      </p>
-      <p className="mt-6 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-500">
-        Cada país muestra su bandera y colores. Tus datos no salen de este
-        dispositivo salvo que exportes o cambies de navegador.
-      </p>
+    <div className="flex flex-1 flex-col items-center justify-center px-2 py-4 sm:py-8">
+      <div className="w-full max-w-lg rounded-2xl border border-black/10 bg-white/95 px-6 py-9 shadow-2xl ring-1 ring-black/5 backdrop-blur-sm dark:border-white/15 dark:bg-zinc-950/90 dark:ring-white/10 sm:px-10 sm:py-11">
+        <p className="text-center text-[0.65rem] font-bold uppercase tracking-[0.28em] text-zinc-500 dark:text-zinc-400">
+          Portada
+        </p>
+        <p className="mt-2 text-center font-serif text-4xl font-semibold tracking-tight text-zinc-950 dark:text-white sm:text-[2.75rem]">
+          Mi álbum
+        </p>
+        <p className="mx-auto mt-4 max-w-sm text-center text-base leading-snug text-zinc-700 dark:text-zinc-300">
+          48 equipos · Coca-Cola (14) · Historia FIFA (19) · Repetidos
+        </p>
+        <div className="mt-6 flex justify-center">
+          <p className="inline-flex items-center gap-2 rounded-full border border-emerald-600/25 bg-emerald-600/10 px-5 py-2.5 text-sm font-semibold text-emerald-900 dark:border-emerald-400/35 dark:bg-emerald-950/50 dark:text-emerald-100">
+            <span className="tabular-nums">{dupTotal}</span>
+            <span className="font-normal opacity-90">
+              repetidos para canje
+            </span>
+          </p>
+        </div>
+        <p className="mx-auto mt-8 max-w-md text-center text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          Bandera y colores por país. Todo se guarda en este navegador; si cambias de
+          dispositivo o borras datos, el álbum se reinicia.
+        </p>
+      </div>
     </div>
   );
 }
