@@ -2,16 +2,21 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import type { SupabasePublicCredentials } from "@/lib/supabase/client";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 
-export function LogoutButton() {
+interface LogoutButtonProps {
+  credentials: SupabasePublicCredentials;
+}
+
+export function LogoutButton({ credentials }: LogoutButtonProps) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
 
   async function handleLogout() {
     setPending(true);
     try {
-      const supabase = createBrowserSupabaseClient();
+      const supabase = createBrowserSupabaseClient(credentials);
       await supabase.auth.signOut();
       router.refresh();
       router.push("/");

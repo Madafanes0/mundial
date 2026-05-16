@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { isSupabaseConfigured } from "@/lib/env-public";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { LogoutButton } from "@/components/logout-button";
+import { isSupabaseConfigured } from "@/lib/env-public";
+import {
+  readSupabaseAnonKey,
+  readSupabaseProjectUrl,
+} from "@/lib/supabase/project-env";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export async function SiteHeader() {
   return (
@@ -17,19 +21,20 @@ export async function SiteHeader() {
 
         {!isSupabaseConfigured() ? (
           <p className="text-xs text-amber-800 dark:text-amber-200">
-            Modo local: en{" "}
+            Sin Supabase: en local usa{" "}
             <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">
               .env.local
-            </code>{" "}
-            (o Vercel) pon{" "}
+            </code>
+            ; en Vercel marca también{" "}
+            <strong>Development</strong> si usas{" "}
             <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">
-              NEXT_PUBLIC_SUPABASE_URL
-            </code>{" "}
-            ={" "}
+              vercel dev
+            </code>
+            . URL ={" "}
             <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">
-              https://xxx.supabase.co
-            </code>{" "}
-            y la anon key. Redeploy tras cambiar variables.
+              https://….supabase.co
+            </code>
+            . Redeploy tras cambiar variables.
           </p>
         ) : (
           <Suspense
@@ -50,6 +55,11 @@ async function AuthArea() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const credentials = {
+    url: readSupabaseProjectUrl(),
+    anonKey: readSupabaseAnonKey(),
+  };
 
   if (!user) {
     return (
@@ -75,7 +85,7 @@ async function AuthArea() {
       <span className="max-w-[200px] truncate text-zinc-600 dark:text-zinc-300">
         {user.email}
       </span>
-      <LogoutButton />
+      <LogoutButton credentials={credentials} />
     </div>
   );
 }

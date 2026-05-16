@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { AuthRegisterForm } from "@/components/auth-register-form";
 import { isSupabaseConfigured } from "@/lib/env-public";
+import {
+  readSupabaseAnonKey,
+  readSupabaseProjectUrl,
+} from "@/lib/supabase/project-env";
 
 export default function RegisterPage() {
   if (!isSupabaseConfigured()) {
@@ -10,8 +14,10 @@ export default function RegisterPage() {
           Registro no disponible
         </h1>
         <p className="mt-3 text-zinc-600 dark:text-zinc-400">
-          Configura las variables de Supabase en{" "}
-          <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">.env.local</code>.
+          Configura las variables en{" "}
+          <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">.env.local</code>{" "}
+          o en Vercel (incluye entorno Development si usas{" "}
+          <code className="rounded bg-zinc-100 px-1 dark:bg-zinc-800">vercel dev</code>) y redeploy.
         </p>
         <Link href="/" className="mt-6 inline-block text-zinc-900 underline dark:text-zinc-100">
           Volver al álbum
@@ -20,9 +26,14 @@ export default function RegisterPage() {
     );
   }
 
+  const credentials = {
+    url: readSupabaseProjectUrl(),
+    anonKey: readSupabaseAnonKey(),
+  };
+
   return (
     <div className="flex flex-1 flex-col justify-center bg-transparent px-4 py-12">
-      <AuthRegisterForm />
+      <AuthRegisterForm credentials={credentials} />
     </div>
   );
 }

@@ -3,10 +3,15 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import type { SupabasePublicCredentials } from "@/lib/supabase/client";
 import { createBrowserSupabaseClient } from "@/lib/supabase/client";
 import { parseSupabaseAuthError } from "@/lib/supabase/auth-errors";
 
-export function AuthLoginForm() {
+interface AuthLoginFormProps {
+  credentials: SupabasePublicCredentials;
+}
+
+export function AuthLoginForm({ credentials }: AuthLoginFormProps) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +23,7 @@ export function AuthLoginForm() {
     setError(null);
     setPending(true);
     try {
-      const supabase = createBrowserSupabaseClient();
+      const supabase = createBrowserSupabaseClient(credentials);
       const { error: signError } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,

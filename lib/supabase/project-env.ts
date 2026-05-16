@@ -1,5 +1,17 @@
 /** Lee y normaliza URL / anon key (espacios, comillas, barra final). */
 
+/**
+ * Usa `process.env["NEXT_PUBLIC_*"]` (corchetes) para que Next no deje el valor
+ * “quemado” vacío del primer build en Vercel: se lee en tiempo de ejecución.
+ */
+function envUrlRaw(): string {
+  return process.env["NEXT_PUBLIC_SUPABASE_URL"] ?? "";
+}
+
+function envAnonRaw(): string {
+  return process.env["NEXT_PUBLIC_SUPABASE_ANON_KEY"] ?? "";
+}
+
 function stripQuotes(s: string): string {
   const t = s.trim();
   if (
@@ -12,7 +24,7 @@ function stripQuotes(s: string): string {
 }
 
 export function readSupabaseProjectUrl(): string {
-  const raw = stripQuotes(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "");
+  const raw = stripQuotes(envUrlRaw());
   if (!raw) return "";
   try {
     const u = new URL(raw.replace(/\/+$/, ""));
@@ -23,7 +35,7 @@ export function readSupabaseProjectUrl(): string {
 }
 
 export function readSupabaseAnonKey(): string {
-  return stripQuotes(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "");
+  return stripQuotes(envAnonRaw());
 }
 
 /** La URL debe ser el host de proyecto hospedado (.supabase.co). */
